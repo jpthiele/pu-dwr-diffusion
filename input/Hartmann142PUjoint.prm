@@ -1,0 +1,136 @@
+# Problem: Hartmann Sec. 1.4.2, Diploma-thesis
+
+# Overall space dimension:
+set dim = 2
+
+subsection Problem Specification
+    # Finite Elements in space-time
+    
+    # primal problem
+    set primal space type = cG
+    set primal p = 1
+    
+    set primal time type = dG
+    set primal r = 0
+    
+    # dual problem
+    set dual space type = cG
+    set dual q = 2
+    
+    
+    set dual time type = dG
+    set dual s = 0
+#    set dual time type = cG
+#    set dual s = 1
+
+    # solution types
+    #set order approach = mixed order
+    #set order approach = equal high order
+    set order approach = equal low order 
+end
+
+subsection Mesh Specification
+    ############################################################################
+    # triangulation description
+    set TriaGenerator = subdivided_hyper_rectangle
+    # subdivided_hyper_rectangle: point lower left, point upper right and spacing
+    set TriaGenerator Options = "0.0 0.0 0.0   1.0 1.0 1.0   1.00 1.00 1.00"
+    
+    # boundary description
+    set Grid Class = Grid_DWR_PureDirichlet
+    set Grid Class Options = ""
+    
+    ############################################################################
+    # Global refinement of the initial mesh
+    set global refinement = 3
+end
+
+subsection Time Integration
+    set initial time   = 0.0
+    set final time     = 1.0
+    set time step size = 0.0625
+end
+
+subsection DWR
+    set estimator type = joint
+    set goal type = L2L2
+    
+    set loops = 6 
+    
+    # space strategy: global, fixed_fraction or Schwegler
+#    set refine and coarsen space strategy = global
+#    set refine and coarsen space strategy = fixed_fraction
+    set refine and coarsen space strategy = fixed_number
+#    set refine and coarsen space strategy = RichterWick
+    set refine and coarsen space top fraction1 = 0.4 # 1.0
+    set refine and coarsen space top fraction2 = 0.4 # 1.0
+    set refine and coarsen space riwi alpha = 2.0
+    set refine and coarsen space bottom fraction = 0.0
+    set refine and coarsen space max growth factor n_active_cells = 3
+    
+    # time strategy: global, fixed_fraction
+#    set refine and coarsen time strategy = global
+#    set refine and coarsen time strategy = fixed_fraction
+    set refine and coarsen time strategy = fixed_number
+    set refine and coarsen time top fraction = 0.95 # 1.0
+end
+
+subsection Parameter Specification
+    ############################################################################
+    # Mass density function rho
+    set density function = ConstantFunction
+    set density options  = "1.0"
+
+    # Diffusion coefficient function epsilon
+    set epsilon function = ConstantFunction
+    set epsilon options  = "1.0"
+    
+    # Force f
+    set force function = Force_Hartmann142
+    #                     a   epsilon
+    set force options  = "50. 1."
+    set force assembler quadrature auto mode = false
+    set force assembler quadrature points = 5
+    
+    ############################################################################
+    # Initial value function
+    set initial value u0 function = InitialValue_Hartmann142
+    #                                a
+    set initial value u0 options  = "50."
+    
+    ############################################################################
+    # Boundary value function
+    set dirichlet boundary u_D function = DirichletBoundary_Hartmann142
+    #                                      a
+    set dirichlet boundary u_D options  = "50."
+    
+    ############################################################################
+    # Exact solution function (if any)
+    set exact solution function = ExactSolution_Hartmann142
+    #                              a   
+    set exact solution options  = "50."
+end
+
+subsection Output Quantities
+    ############################################################################
+    # primal solution output control
+    set primal data output dwr loop = all     # use none, all, last or number
+    
+    set primal data output trigger type = I_n   # I_n mode: one output per I_n
+#    set primal data output trigger type = fixed # fixed mode: fixed output trigger time
+    set primal data output trigger time      = 0.01 # use fixed trigger value (fixed mode only)
+    
+    set primal data output patches auto mode = true # use < primal p > data output patches (auto mode)
+    set primal data output patches           = 1    # use this (no auto mode)
+    
+    ############################################################################
+    # dual solution output control
+    set dual data output dwr loop = none      # use none, all, last or number
+    set dual data output trigger type = I_n   # I_n mode: one output per I_n
+#    set dual data output trigger type = fixed # fixed mode: fixed output trigger time
+    set dual data output trigger time      = 0.01
+    
+    set dual data output patches auto mode = true # use < dual q > data output patches (auto mode)
+    set dual data output patches           = 1    # use this (no auto mode)
+end
+

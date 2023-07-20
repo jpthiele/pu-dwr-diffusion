@@ -1,0 +1,38 @@
+/**
+ * @file Diffusion_PU_DWR.inst.in
+ *
+ * @author Jan Philipp Thiele (JPT)s
+ * @author Uwe Koecher (UK)
+ * 
+ * @brief Instantiation file.
+ */
+
+/*  Copyright (C) 2012-2023 by Jan Philipp Thiele and Uwe Koecher             */
+/*                                                                            */
+/*  This file is part of pu-dwr-diffusion                                     */
+/*                                                                            */
+/*  pu-dwr-diffusion is free software: you can redistribute it and/or modify  */
+/*  it under the terms of the GNU Lesser General Public License as            */
+/*  published by the Free Software Foundation, either                         */
+/*  version 3 of the License, or (at your option) any later version.          */
+/*                                                                            */
+/*  pu-dwr-diffusion is distributed in the hope that it will be useful,       */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU Lesser General Public License for more details.                       */
+/*                                                                            */
+/*  You should have received a copy of the GNU Lesser General Public License  */
+/*  along with pu-dwr-diffusion. If not, see <http://www.gnu.org/licenses/>.  */
+
+#ifndef __Diffusion_PU_DWR_inst_in
+#define __Diffusion_PU_DWR_inst_in
+
+
+namespace diffusion {
+
+	template class Diffusion_PU_DWR<2>;
+	template class Diffusion_PU_DWR<3>;
+
+} // namespaces
+
+#endif
