@@ -1782,7 +1782,7 @@ dual_solve_slab_problem_cG1(
         static_cast< dealii::types::boundary_id > (
                 diffusion::types::boundary_id::Dirichlet
         ),
-        dealii::ZeroFunction<dim>(1),
+        dealii::Functions::ZeroFunction<dim>(1),
         boundary_values
     );
 
@@ -1846,7 +1846,7 @@ dual_solve_slab_problem_dG0(
         static_cast< dealii::types::boundary_id > (
             diffusion::types::boundary_id::Dirichlet
         ),
-        dealii::ZeroFunction<dim>(1),
+        dealii::Functions::ZeroFunction<dim>(1),
         boundary_values
     );
 
